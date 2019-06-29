@@ -205,7 +205,7 @@ class allSystems:#wszyskkie systemy
         self.systems = []
         self.cnt = 0
 
-    def readData(self,file):#pbranie danych z pliku
+    def readData(self,file, timeFile):#pbranie danych z pliku
         fileo = open(file, "r")
         #time, funct,
         max = 0
@@ -213,7 +213,7 @@ class allSystems:#wszyskkie systemy
         self.n = int(fileo.readline())
         #self.systems = [system()]*self.n
         #wektor czasów z pdf
-        timvec = [[155,166,176,186,195,204,212,221,230,239,248,257,266,275,284,293,302,311,320,329,338,347,356],[154,161,170,180,190,201,212,224,236,248,260,272,284,295,306,316,326,335,344,353,361,369,377],[154,165,177,191,207,224,240,256,268,276,280,283,284,285,287,291,296,305,316,328,341,354,365]]
+        timvec = self.getTimes(timeFile)
         for j in range(self.n):
             self.systems.append(system([],[],self.reg,timvec[j]))
             sys = self.systems[j]
@@ -231,7 +231,16 @@ class allSystems:#wszyskkie systemy
         self.cnt = max + 1;
         fileo.close()
         return maxt
-
+    def getTimes(self,timeFile):
+        fileo = open(timeFile, "r")
+        out = []
+        for j in range(self.n):
+            dat = fileo.readline().split(",")
+            out.append([])
+            for x in dat:
+                out[j].append(int(x))
+        fileo.close()
+        return out
     def print_(self):
         cnt = 1
         for sys in self.systems:
